@@ -1,5 +1,6 @@
 package com.szerszen.diabetex;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,10 +19,17 @@ public class MainActivity extends AppCompatActivity {
     public Button button_list;
     public Button button_setting;
 
+    private Context context;
+    private TextView text_timer;
+    private Thread timer_th;
+    private Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+
+        context = this;
 
         button_exit = (Button) findViewById(R.id.button_exit);
         button_restart = (Button) findViewById(R.id.button_restart);
@@ -29,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         button_setting = (Button) findViewById(R.id.button_setting);
         button_newgame = (Button) findViewById(R.id.button_newgame);
 
-
+        text_timer = (TextView) findViewById(R.id.text_timer);
 
         button_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +46,21 @@ public class MainActivity extends AppCompatActivity {
                 //this is how you create new page
                 Intent list_page = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(list_page);
+            }
+        });
+
+        button_restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            resumeTimer();
+            }
+        });
+
+        button_newgame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+                startTimer();
             }
         });
 
@@ -51,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         button_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               // button_pause.setVisibility(View.INVISIBLE);
                 showMenu();
+                pauseTimer();
             }
         });
 
@@ -79,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void showMenu() {
+    private void showMenu() {
         button_restart.setVisibility(View.VISIBLE);
         button_newgame.setVisibility(View.VISIBLE);
         button_list.setVisibility(View.VISIBLE);
@@ -90,6 +116,53 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.text_list).setVisibility(View.VISIBLE);
         findViewById(R.id.text_newgame).setVisibility(View.VISIBLE);
         findViewById(R.id.text_setting).setVisibility(View.VISIBLE);
+    }
+
+    public void startTimer(){
+        //check if it was already started
+        if(timer == null) {
+            timer = new Timer(context);
+            timer_th = new Thread(timer);
+            //start thread of timer then start timer itself
+            timer_th.start();
+            timer.start();
+        }
+    }
+
+    public void resumeTimer(){
+        if(timer != null) {
+            timer_th.interrupt();
+            timer_th = null;
+            timer_th = new Thread(timer);
+            timer_th.start();
+            timer.start();
+        }
+    }
+
+    public void pauseTimer() {
+        if(timer != null) {
+            timer.stop();
+        }
+    }
+
+    public void resetTimer() {
+        if(timer != null) {
+            //stop the timer
+            timer.stop();
+            //stop the thread
+            timer_th.interrupt();
+            timer_th = null;
+            timer = null;
+        }
+    }
+
+    public void updateTimerText(final String time) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                text_timer.setText(time);
+            }
+        });
     }
 }
 
