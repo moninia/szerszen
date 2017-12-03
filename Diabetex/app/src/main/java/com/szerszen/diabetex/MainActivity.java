@@ -1,9 +1,11 @@
 package com.szerszen.diabetex;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,11 +21,14 @@ public class MainActivity extends AppCompatActivity {
     public Button button_list;
     public Button button_setting;
 
+    public Button button_human;
+
     private Context context;
     private TextView text_timer;
     private Thread timer_th;
     private Timer timer;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +43,18 @@ public class MainActivity extends AppCompatActivity {
         button_setting = (Button) findViewById(R.id.button_setting);
         button_newgame = (Button) findViewById(R.id.button_newgame);
 
+        button_human = (Button) findViewById(R.id.button);
+
         text_timer = (TextView) findViewById(R.id.text_timer);
+
+        button_human.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+
+                return true;
+            }
+        });
 
         button_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         button_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            resumeTimer();
+                resumeTimer();
             }
         });
 
@@ -75,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         button_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // button_pause.setVisibility(View.INVISIBLE);
+                button_pause.setVisibility(View.INVISIBLE);
                 showMenu();
                 pauseTimer();
             }
@@ -131,10 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void resumeTimer(){
         if(timer != null) {
-            timer_th.interrupt();
-            timer_th = null;
-            timer_th = new Thread(timer);
-            timer_th.start();
+
             timer.start();
         }
     }

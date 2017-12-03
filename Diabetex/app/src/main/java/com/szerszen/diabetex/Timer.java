@@ -25,21 +25,23 @@ public class Timer implements Runnable{
     public void start() {
         if(start_time == 0) {
             start_time = System.currentTimeMillis();
+            pause_time = 0;
         } else {
-            start_time = System.currentTimeMillis() + pause_time;
+            long resume_time = System.currentTimeMillis();
+            pause_time = resume_time - pause_time;
         }
         is_running = true;
     }
 
     public void stop() {
         is_running = false;
-        pause_time = System.currentTimeMillis() - start_time;
+        pause_time = System.currentTimeMillis();
     }
 
     @Override
     public void run() {
         while(is_running) {
-            long since = System.currentTimeMillis() - start_time;
+            long since = System.currentTimeMillis() - start_time - pause_time;
             int seconds = (int) ((since/1000) % 60);
             int minutes = (int) (((since / 60000 )) % 60);
 
