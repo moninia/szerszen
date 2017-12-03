@@ -8,6 +8,7 @@ public class Timer implements Runnable{
     private boolean is_running;
     private long start_time;
     private long pause_time;
+    private long resume_time;
 
     public Timer(Context context) {
         pause_time = 0;
@@ -26,10 +27,17 @@ public class Timer implements Runnable{
     public void start() {
         if(start_time == 0) {
             start_time = System.currentTimeMillis();
+<<<<<<< HEAD
             pause_time = 0;
         } else {
             long resume_time = System.currentTimeMillis();
             pause_time = resume_time - pause_time;
+=======
+            resume_time = 0;
+            pause_time = 0;
+        } else {
+            resume_time = System.currentTimeMillis() - pause_time;
+>>>>>>> animation
         }
         is_running = true;
     }
@@ -42,7 +50,11 @@ public class Timer implements Runnable{
     @Override
     public void run() {
         while(is_running) {
+<<<<<<< HEAD
             long since = System.currentTimeMillis() - start_time - pause_time;
+=======
+            long since = System.currentTimeMillis() - start_time - resume_time;
+>>>>>>> animation
             int seconds = (int) ((since/1000) % 60);
             int minutes = (int) (((since / 60000 )) % 60);
 
