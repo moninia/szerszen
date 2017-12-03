@@ -40,13 +40,12 @@ public class MainActivity extends AppCompatActivity {
     private Thread timer_th;
     private Timer timer;
 
-<<<<<<< HEAD
     @SuppressLint("ClickableViewAccessibility")
-=======
+
     private int change;
     private ImageView player;
 
->>>>>>> animation
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         button_setting = (Button) findViewById(R.id.button_setting);
         button_newgame = (Button) findViewById(R.id.button_newgame);
 
-<<<<<<< HEAD
+
         button_human = (Button) findViewById(R.id.button);
-=======
+
         player = (ImageView) findViewById(R.id.player);
->>>>>>> animation
+
 
         text_timer = (TextView) findViewById(R.id.text_timer);
 
@@ -92,13 +91,12 @@ public class MainActivity extends AppCompatActivity {
         button_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
                 resumeTimer();
-=======
+
             resumeTimer();
             hideMenu();
             button_pause.setVisibility(View.VISIBLE);
->>>>>>> animation
+
             }
         });
 
@@ -256,12 +254,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void resumeTimer(){
         if(timer != null) {
-<<<<<<< HEAD
 
-=======
             timer_th = new Thread(timer);
             timer_th.start();
->>>>>>> animation
+
             timer.start();
         }
     }

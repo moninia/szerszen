@@ -160,7 +160,7 @@
         app:layout_constraintVertical_bias="0.013" />
 
     <ProgressBar
-<<<<<<< HEAD
+
         android:id="@+id/bar_hunger"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="49dp"
@@ -212,20 +212,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toEndOf="@+id/button_pause" />
-=======
-        android:id="@+id/progress_bar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="44dp"
-        android:layout_height="409dp"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="0dp"
-        android:max="100"
-        android:progress="33"
-        android:progressDrawable="@drawable/progress_drawable_vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button_pause"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/player"
@@ -238,6 +225,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
->>>>>>> animation
+
 
 </android.support.constraint.ConstraintLayout>
