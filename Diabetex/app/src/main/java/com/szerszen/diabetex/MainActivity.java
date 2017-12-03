@@ -2,12 +2,25 @@ package com.szerszen.diabetex;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.Transformation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,12 +37,17 @@ public class MainActivity extends AppCompatActivity {
     private Thread timer_th;
     private Timer timer;
 
+    private int change;
+    private ImageView player;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
 
         context = this;
+        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.con_layout);
+        final ConstraintSet set = new ConstraintSet();
 
         button_exit = (Button) findViewById(R.id.button_exit);
         button_restart = (Button) findViewById(R.id.button_restart);
@@ -37,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         button_list = (Button) findViewById(R.id.button_list);
         button_setting = (Button) findViewById(R.id.button_setting);
         button_newgame = (Button) findViewById(R.id.button_newgame);
+
+        player = (ImageView) findViewById(R.id.player);
 
         text_timer = (TextView) findViewById(R.id.text_timer);
 
@@ -53,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             resumeTimer();
+            hideMenu();
+            button_pause.setVisibility(View.VISIBLE);
             }
         });
 
@@ -61,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 resetTimer();
                 startTimer();
+                hideMenu();
+                button_pause.setVisibility(View.VISIBLE);
             }
         });
 
@@ -73,11 +97,75 @@ public class MainActivity extends AppCompatActivity {
         });
 
         button_pause.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-               // button_pause.setVisibility(View.INVISIBLE);
+                button_pause.setVisibility(View.INVISIBLE);
                 showMenu();
                 pauseTimer();
+                ImageView view = new ImageView(getApplicationContext());
+                view.setImageDrawable(getDrawable(R.drawable.arbuz));
+                //view.requestLayout();
+               // view.getLayoutParams().width = 80;
+                //view.getLayoutParams().height = 80;
+                layout.addView(view,0);
+                set.clone(layout);
+                // Now constrain the ImageView so it is centered on the screen.
+                // There is also a "center" method that can be used here.
+                set.constrainWidth(view.getId(), ConstraintSet.WRAP_CONTENT);
+                set.constrainHeight(view.getId(), ConstraintSet.WRAP_CONTENT);
+                set.center(view.getId(), ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
+                        0, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0, 0.5f);
+                set.center(view.getId(), ConstraintSet.PARENT_ID, ConstraintSet.TOP,
+                        0, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0, 0.5f);
+                set.applyTo(layout);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (change == 1) {
+                            button_pause.setBackgroundColor(Color.parseColor("#55FF0000"));
+                            change = 0;
+                        } else {
+                            button_pause.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                            change = 1;
+                        }
+                    }
+                });
+
+                doCustomAnimation((ImageView) view);
+
+                TranslateAnimation animation = new TranslateAnimation(0,0,0, getScreenHeight());
+                animation.setDuration(5000);
+                //animation.setRepeatCount(5);
+                //animation.setRepeatMode(2);
+                animation.setFillAfter(true);
+
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        button_pause.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+                });
+                view.startAnimation(animation);
+            }
+        });
+
+        player.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_MOVE: {
+                        player.setX((int)event.getRawX());
+                    }
+                }
+                return true;
             }
         });
 
@@ -118,6 +206,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.text_setting).setVisibility(View.VISIBLE);
     }
 
+    private void hideMenu() {
+        button_restart.setVisibility(View.INVISIBLE);
+        button_newgame.setVisibility(View.INVISIBLE);
+        button_list.setVisibility(View.INVISIBLE);
+        button_setting.setVisibility(View.INVISIBLE);
+        button_exit.setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_exit).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_list).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_newgame).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_setting).setVisibility(View.INVISIBLE);
+    }
+
     public void startTimer(){
         //check if it was already started
         if(timer == null) {
@@ -131,8 +232,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void resumeTimer(){
         if(timer != null) {
-            timer_th.interrupt();
-            timer_th = null;
             timer_th = new Thread(timer);
             timer_th.start();
             timer.start();
@@ -142,6 +241,8 @@ public class MainActivity extends AppCompatActivity {
     public void pauseTimer() {
         if(timer != null) {
             timer.stop();
+            timer_th.interrupt();
+            timer_th = null;
         }
     }
 
@@ -163,139 +264,6 @@ public class MainActivity extends AppCompatActivity {
                 text_timer.setText(time);
             }
         });
-    }
-}
-
-/*package com.szerszen.wat;
-
-
-public class MainActivity extends AppCompatActivity {
-
-    TextView textView;
-    EditText editText;
-    Button button;
-    public int change;
-
-    public static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    public static int getScreenHeight() {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
-    }
-
-
-        //to działa na id/costam w xml
-        setContentView(R.layout.content_main);
-
-        //casting ref to things in
-        textView = (TextView) findViewById(R.id.textView);
-        editText = (EditText) findViewById(R.id.editText);
-
-
-        button = (Button) findViewById(R.id.button);
-
-        //ref do mojego layouta
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) button.getLayoutParams();
-
-        // Get existing constraints into a ConstraintSet
-        final ImageView object = new ImageView(this);
-
-        Drawable d = getResources().getDrawable(android.R.drawable.star_big_off);
-        object.setImageDrawable(d);
-        object.setVisibility(View.VISIBLE);
-        object.setId(View.generateViewId());
-        ConstraintSet constraints = new ConstraintSet();
-        constraints.clone(layout);
-
-        layout.addView(object);
-        // Now constrain the ImageView so it is centered on the screen.
-        // There is also a "center" method that can be used here.
-        constraints.constrainWidth(object.getId(), ConstraintSet.WRAP_CONTENT);
-        constraints.constrainHeight(object.getId(), ConstraintSet.WRAP_CONTENT);
-        constraints.center(object.getId(), ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
-                0, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0, 0.5f);
-        constraints.center(object.getId(), ConstraintSet.PARENT_ID, ConstraintSet.TOP,
-                0, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0, 0.5f);
-        constraints.applyTo(layout);
-
-        object.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (change == 1) {
-                    button.setBackgroundColor(Color.parseColor("#55FF0000"));
-                    change = 0;
-                } else {
-                    button.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-                    change = 1;
-                }
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = editText.getText().toString();
-                textView.setText(text);
-                textView.setVisibility(View.VISIBLE);
-
-                doCustomAnimation(object);
-
-                *//* TranslateAnimation animation = new TranslateAnimation(0.0f, 400.0f,
-                        0.0f, 0.0f);
-                animation.setDuration(5000);
-                animation.setRepeatCount(5);
-                animation.setRepeatMode(2);
-                animation.setFillAfter(true);
-
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        button.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                });
-                object.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        button.setBackgroundColor(Color.parseColor("#55FF0000"));
-                    }
-                });
-                object.startAnimation(animation); *//*
-            }
-        });
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    public void onClick() {
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-            return true;
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void doCustomAnimation(ImageView imageView){
@@ -329,5 +297,11 @@ public class MainActivity extends AppCompatActivity {
         image.startAnimation(animation);
     }
 
-}*/
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
 
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+}

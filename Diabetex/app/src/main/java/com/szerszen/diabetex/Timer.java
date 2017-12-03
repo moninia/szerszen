@@ -30,8 +30,6 @@ public class Timer implements Runnable{
             pause_time = 0;
         } else {
             resume_time = System.currentTimeMillis() - pause_time;
-
-
         }
         is_running = true;
     }
@@ -44,7 +42,7 @@ public class Timer implements Runnable{
     @Override
     public void run() {
         while(is_running) {
-            long since = System.currentTimeMillis() - start_time - pause_time;
+            long since = System.currentTimeMillis() - start_time - resume_time;
             int seconds = (int) ((since/1000) % 60);
             int minutes = (int) (((since / 60000 )) % 60);
 
