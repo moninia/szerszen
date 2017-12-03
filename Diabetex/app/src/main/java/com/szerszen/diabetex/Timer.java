@@ -10,6 +10,7 @@ public class Timer implements Runnable{
     private long pause_time;
 
     public Timer(Context context) {
+        pause_time = 0;
         this.context = context;
     }
 
