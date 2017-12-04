@@ -2,7 +2,7 @@ package com.szerszen.diabetex;
 
 import android.content.Context;
 
-public class Timer implements Runnable{
+public class Timer implements Runnable {
 
     private Context context;
     private boolean is_running;
@@ -20,16 +20,13 @@ public class Timer implements Runnable{
         this.start_time = start_time;
     }
 
-    public long getStartTime() {
-        return start_time;
-    }
-
     public void start() {
         if(start_time == 0) {
             start_time = System.currentTimeMillis();
             pause_time = 0;
             resume_time = 0;
         } else {
+            resume_time = 0;
             resume_time = System.currentTimeMillis() - pause_time;
         }
         is_running = true;

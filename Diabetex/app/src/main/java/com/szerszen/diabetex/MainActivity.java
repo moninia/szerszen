@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -24,7 +26,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 public class MainActivity extends AppCompatActivity {
+
+    private int image_number = 0;
 
     public Button button_exit;
     public Button button_restart;
@@ -32,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     public Button button_newgame;
     public Button button_list;
     public Button button_setting;
-
-    public Button button_human;
 
     private Context context;
     private TextView text_timer;
@@ -45,15 +48,17 @@ public class MainActivity extends AppCompatActivity {
     private int change;
     private ImageView player;
 
+    private ImageView[] image_table = new ImageView[image_number];
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
 
         context = this;
-        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.con_layout);
         final ConstraintSet set = new ConstraintSet();
+        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.con_layout);
 
         button_exit = (Button) findViewById(R.id.button_exit);
         button_restart = (Button) findViewById(R.id.button_restart);
@@ -62,22 +67,19 @@ public class MainActivity extends AppCompatActivity {
         button_setting = (Button) findViewById(R.id.button_setting);
         button_newgame = (Button) findViewById(R.id.button_newgame);
 
-
-        button_human = (Button) findViewById(R.id.button);
-
         player = (ImageView) findViewById(R.id.player);
-
 
         text_timer = (TextView) findViewById(R.id.text_timer);
 
-        button_human.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-
-                return true;
-            }
-        });
+        for (int i = 1; i <= image_number; i++) {
+            String s = "a" + i;
+            ImageView view = new ImageView(getApplicationContext());
+            int imageResource = getResources().getIdentifier(s, "drawable", getPackageName());
+            System.out.print(imageResource);
+            Drawable image = getResources().getDrawable(imageResource);
+            view.setImageDrawable(image);
+            image_table[i-1] = view;
+        }
 
         button_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
         button_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resumeTimer();
-
             resumeTimer();
             hideMenu();
             button_pause.setVisibility(View.VISIBLE);
@@ -125,57 +125,76 @@ public class MainActivity extends AppCompatActivity {
                 button_pause.setVisibility(View.INVISIBLE);
                 showMenu();
                 pauseTimer();
-                ImageView view = new ImageView(getApplicationContext());
-                view.setImageDrawable(getDrawable(R.drawable.arbuz));
-                //view.requestLayout();
-               // view.getLayoutParams().width = 80;
-                //view.getLayoutParams().height = 80;
-                layout.addView(view,0);
-                set.clone(layout);
-                // Now constrain the ImageView so it is centered on the screen.
-                // There is also a "center" method that can be used here.
-                set.constrainWidth(view.getId(), ConstraintSet.WRAP_CONTENT);
-                set.constrainHeight(view.getId(), ConstraintSet.WRAP_CONTENT);
-                set.center(view.getId(), ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
-                        0, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0, 0.5f);
-                set.center(view.getId(), ConstraintSet.PARENT_ID, ConstraintSet.TOP,
-                        0, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0, 0.5f);
-                set.applyTo(layout);
+                for (int i = 0; i < image_number; i++) {
+                    final ImageView view = image_table[i];
 
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (change == 1) {
-                            button_pause.setBackgroundColor(Color.parseColor("#55FF0000"));
-                            change = 0;
-                        } else {
-                            button_pause.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-                            change = 1;
+                    //view.requestLayout();
+                    // view.getLayoutParams().width = 80;
+                    //view.getLayoutParams().height = 80;
+                    layout.addView(view, 0);
+                    set.clone(layout);
+                    // Now constrain the ImageView so it is centered on the screen.
+                    // There is also a "center" method that can be used here.
+                    set.constrainWidth(view.getId(), ConstraintSet.WRAP_CONTENT);
+                    set.constrainHeight(view.getId(), ConstraintSet.WRAP_CONTENT);
+
+                    //set.center(view.getId(), ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
+                    //         0, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0, 0.5f);
+                    //set.center(view.getId(), ConstraintSet.PARENT_ID, ConstraintSet.TOP,
+                    //        0, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0, 0.5f);
+
+                    //set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 20);
+                    //set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 10);
+                    ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+                    lp.height = lp.height / 4;
+                    view.setLayoutParams(lp);
+                    System.out.print(view.getHeight());
+
+                    set.setHorizontalBias(view.getId(), 20*(i+1));
+                    set.applyTo(layout);
+
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.print(view.getHeight());
+                            layout.removeView(view);
+
+                            if (change == 1) {
+                                button_pause.setBackgroundColor(Color.parseColor("#55FF0000"));
+                                change = 0;
+                            } else {
+                                button_pause.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                                change = 1;
+                            }
                         }
-                    }
-                });
+                    });
 
-                doCustomAnimation((ImageView) view);
+                   /* doCustomAnimation((ImageView) view);
 
-                TranslateAnimation animation = new TranslateAnimation(0,0,0, getScreenHeight());
-                animation.setDuration(5000);
-                //animation.setRepeatCount(5);
-                //animation.setRepeatMode(2);
-                animation.setFillAfter(true);
+                    TranslateAnimation animation = new TranslateAnimation(0, 0, 0, getScreenHeight());
+                    animation.setDuration(5000*(i+1));
+                    animation.setFillAfter(true);
 
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        button_pause.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                });
-                view.startAnimation(animation);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            button_pause.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            layout.removeView(view);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                            layout.removeView(view);
+                        }
+
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            layout.removeView(view);
+                        }
+                    });
+                    view.startAnimation(animation);
+                    */
+                }
             }
         });
 
@@ -254,10 +273,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void resumeTimer(){
         if(timer != null) {
-
             timer_th = new Thread(timer);
             timer_th.start();
-
             timer.start();
         }
     }
@@ -290,20 +307,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void doCustomAnimation(ImageView imageView){
+    public void doCustomAnimation(final ImageView imageView){
+        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.con_layout);
         final ImageView image = imageView;
-        final Float startingPoint= image.getX();
+        final Float startingPoint= image.getY();
         Animation animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                image.setX(startingPoint - (int)(startingPoint/2 * interpolatedTime));
+                image.setY(startingPoint - (int)(startingPoint/2 * interpolatedTime));
             }
 
         };
         animation.setAnimationListener(new Animation.AnimationListener(){
             @Override
             public void onAnimationEnd(Animation animation) {
-                //simpleLock= false;
+                layout.removeView(imageView);
             }
             @Override
             public void onAnimationRepeat(Animation animation) {

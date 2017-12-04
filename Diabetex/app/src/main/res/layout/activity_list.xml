@@ -6,14 +6,5 @@
     android:layout_height="match_parent"
     tools:context="com.szerszen.diabetex.ListActivity">
 
-    <Button
-        android:id="@+id/button_arbuz"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="38dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/arbuz"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
