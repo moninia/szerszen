@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/product_pic"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="desc"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/product_pic"
+        android:paddingBottom="10dp"
+        android:text="name"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/product_pic"
+        android:layout_marginEnd="12dp"
+        android:layout_toStartOf="@+id/product_kcal"
+        android:text="Wartość kaloryczna:" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text1"
+        android:layout_alignEnd="@+id/text1"
+        android:text="Wartość IG:" />
+
+    <TextView
+        android:id="@+id/product_kcal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/product_ig"
+        android:layout_marginEnd="11dp" />
+
+    <TextView
+        android:id="@+id/product_ig"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_toEndOf="@+id/text1" />
+
+</RelativeLayout>

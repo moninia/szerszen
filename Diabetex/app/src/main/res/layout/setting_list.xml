@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="Podaj swoja wage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <EditText
+        android:id="@+id/kcal_field"
+        android:layout_width="212dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/text1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <TextView
+        android:id="@+id/cukrzyca_text"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="8dp"
+        android:text="Podaj swoj typ cukrzycy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1"
+        app:layout_constraintVertical_bias="0.806" />
+
+    <Spinner
+        android:id="@+id/sex_spinner"
+        android:layout_width="193dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/sexArray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toEndOf="@+id/sex_text"
+        app:layout_constraintTop_toBottomOf="@+id/kcal_field"
+        app:layout_constraintVertical_bias="0.399" />
+
+    <TextView
+        android:id="@+id/sex_text"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Podaj swoja plec"
+        app:layout_constraintBottom_toTopOf="@+id/activity_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1"
+        app:layout_constraintVertical_bias="0.886" />
+
+    <TextView
+        android:id="@+id/activity_text"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Podaj swoja aktywnosc"
+        app:layout_constraintBottom_toTopOf="@+id/cukrzyca_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/activity_spinner"
+        android:layout_width="201dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:entries="@array/activityArray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toEndOf="@+id/activity_text"
+        app:layout_constraintTop_toBottomOf="@+id/sex_spinner"
+        app:layout_constraintVertical_bias="0.114" />
+
+    <Spinner
+        android:id="@+id/cukrzyca_spinner"
+        android:layout_width="206dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/cukrzycaArray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintStart_toEndOf="@+id/cukrzyca_text"
+        app:layout_constraintTop_toBottomOf="@+id/activity_spinner"
+        app:layout_constraintVertical_bias="0.31" />
+
+    <Button
+        android:id="@+id/button_OK"
+        android:layout_width="169dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="OK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.981" />
+
+    <TextView
+        android:id="@+id/height_text"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Podaj swoj wzrost"
+        app:layout_constraintBottom_toTopOf="@+id/sex_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/age_field"
+        app:layout_constraintVertical_bias="0.477" />
+
+    <TextView
+        android:id="@+id/age_text"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="Podaj swoj wiek"
+        app:layout_constraintBottom_toTopOf="@+id/height_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+    <EditText
+        android:id="@+id/age_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/age_text"
+        app:layout_constraintTop_toBottomOf="@+id/kcal_field" />
+
+    <EditText
+        android:id="@+id/height_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toTopOf="@+id/sex_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/height_text"
+        app:layout_constraintTop_toBottomOf="@+id/age_field" />
+
+</android.support.constraint.ConstraintLayout>
