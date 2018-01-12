@@ -77,7 +77,8 @@ public class ScoreScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Intent main = new Intent(ScoreScreen.this, MainActivity.class);
                 main.putExtra("setting", "tak");
-                main.putExtra("sex", sex);  // pass your values and retrieve them in the other Activity using keyName
+                main.putExtra("restart", "nie");
+                main.putExtra("sex", sex);
                 main.putExtra("activity", activity);
                 main.putExtra("weight", weight);
                 main.putExtra("age", age);

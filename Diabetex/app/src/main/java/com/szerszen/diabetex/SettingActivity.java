@@ -163,6 +163,7 @@ public class SettingActivity extends AppCompatActivity {
                  */
                 if(age > 0 && weight > 0 && height > 0) {
                     main.putExtra("setting", "tak");
+                    main.putExtra("restart", "nie");
                     finish(); //zabić SettingActivity
                     startActivity(main); //rozpoczynami MainActivity
                 } else {
@@ -188,6 +189,7 @@ public class SettingActivity extends AppCompatActivity {
                             .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     main.putExtra("setting", "nie");
+                                    main.putExtra("restart", "nie");
                                     finish(); //zabić SettingActivity
                                     startActivity(main); //rozpoczynami MainActivity
                                 }

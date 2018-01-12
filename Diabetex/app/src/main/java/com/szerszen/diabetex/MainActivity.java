@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
         product_pics = getResources().obtainTypedArray(R.array.product_picArray);
 
         pause_flag = true; //na poczatku pausa jest wlaczona
+        restart_flag = false; //na początku restart jest nieaktywny
         button_pause.setVisibility(View.INVISIBLE); //przycisk pauzy jest ukryty
 
         /**
@@ -182,6 +183,12 @@ public class MainActivity extends AppCompatActivity {
                 height = (int) b.get("height");
             } else {
                 setting_flag = false;
+            }
+            tmp_s = (String) b.get("restart");
+            if(tmp_s.equals("nie")) {
+                restart_flag = false;
+            } else {
+                restart_flag = true;
             }
         }
         showMenu(); //następuje pokazanie menu w zależności od flag
@@ -294,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
         /**
-         * Paski są odświeżane co 0.2 sekundy
+         * Paski są odświeżane co 0.2 sekundy, pasek insuliny jedynie gdy gracza jest w "domku"
          */
         new CountDownTimer(200,200) {
             @Override
@@ -303,7 +310,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if(!pause_flag) {
-                    progressBar_insuline.setProgress(insuline_score);
+                    if(player.getX() < getScreenWidth() && player.getX() > getScreenWidth() - 385) {
+                        progressBar_insuline.setProgress(insuline_score);
+                    }
                     progressBar.setProgress(current_score);
                 }
                 start();
@@ -446,10 +455,15 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showMenu() {
         if(setting_flag) {
-            button_restart.setVisibility(View.VISIBLE);
+            if(restart_flag) {
+                button_restart.setVisibility(View.VISIBLE);
+                findViewById(R.id.text_restart).setVisibility(View.VISIBLE);
+            } else {
+                button_restart.setVisibility(View.INVISIBLE);
+                findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
+            }
             button_newgame.setVisibility(View.VISIBLE);
             findViewById(R.id.text_newgame).setVisibility(View.VISIBLE);
-            findViewById(R.id.text_restart).setVisibility(View.VISIBLE);
         } else {
             button_restart.setVisibility(View.INVISIBLE);
             button_newgame.setVisibility(View.INVISIBLE);
