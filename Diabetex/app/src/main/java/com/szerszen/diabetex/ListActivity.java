@@ -61,9 +61,10 @@ public class ListActivity extends AppCompatActivity {
         mylistview = (ListView) findViewById(R.id.list);
         mylistview.setFastScrollEnabled(true);
 
-        /** Pętla w której tworzymy tyle rzędów ile jest nazw produktów,
-           oznacza to, że wszystkich danych w każdej tablicy zawartej w
-         @see string.xml musi być po tyle samo.
+        /**
+         * Pętla w której tworzymy tyle rzędów ile jest nazw produktów,
+         * oznacza to, że wszystkich danych w każdej tablicy zawartej w
+         * string.xml musi być po tyle samo.
          */
         for (int i = 0; i < product_names.length; i++) {
             RowItem item = new RowItem(product_names[i],
@@ -76,7 +77,8 @@ public class ListActivity extends AppCompatActivity {
 
         /**
          * Każdy z przycisków posiada swoją funkcję onClick, po kliknięciu
-         * lista zostaje posortowana w zależności od wybranej opcji
+         * lista zostaje posortowana w zależności od wybranej opcji przy użyciu odpowiedniego
+         * komparatora
          */
         button_sortName.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)

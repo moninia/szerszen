@@ -1,7 +1,10 @@
 package com.szerszen.diabetex;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -148,7 +151,7 @@ public class SettingActivity extends AppCompatActivity {
         button_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(SettingActivity.this, MainActivity.class);
+                final Intent main = new Intent(SettingActivity.this, MainActivity.class);
                 main.putExtra("sex", sex);  // pass your values and retrieve them in the other Activity using keyName
                 main.putExtra("activity", activity);
                 main.putExtra("weight", weight);
@@ -160,10 +163,39 @@ public class SettingActivity extends AppCompatActivity {
                  */
                 if(age > 0 && weight > 0 && height > 0) {
                     main.putExtra("setting", "tak");
+                    finish(); //zabić SettingActivity
+                    startActivity(main); //rozpoczynami MainActivity
                 } else {
-
+                    /**
+                     * Jeśli gracz podał nie poprawne dane, zostanie wyświetlony komunikat,
+                     * i dopóki gracz nie wpisze poprawnie danych
+                     * nie powróci do menu głównego
+                     */
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(context);
+                    }
+                    builder.setTitle("UWAGA!")
+                            .setMessage("Wszystkie pola są wymagane, podaj poprawne wartości dla\n" +
+                                    "swojej wagi, wzrostu i wagi.")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    main.putExtra("setting", "nie");
+                                    finish(); //zabić SettingActivity
+                                    startActivity(main); //rozpoczynami MainActivity
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
-                startActivity(main);
+
             }
         });
     }

@@ -2,7 +2,9 @@ package com.szerszen.diabetex;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -142,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.bar_hunger);
         progressBar_insuline = (ProgressBar) findViewById(R.id.bar_insulin);
 
+        /**
+         * Pobieramy wartości do tablic nazw, kalorii, IG i wartosci ImageView
+         * z pliku strings.xml. Do wartosci z tych tablic (tekstowe są stringach
+         * zaś ImageView jest TyppedArray) odwołujemy się poprzez indeks
+         */
         product_names = getResources().getStringArray(R.array.product_nameArray);
         product_IG = getResources().getStringArray(R.array.product_IGArray);
         product_kcal = getResources().getStringArray(R.array.product_kcalArray);
@@ -157,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         Intent ii = getIntent();
         Bundle b = ii.getExtras();
 
+        /**
+         * Ustawiamy odpowiednie wartości, wartościami które podał gracz w settingach
+         * a także ustawiamy odpowiednie flagi
+         */
         if(b!=null)
         {
             int tmp_i;
@@ -209,19 +220,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /**
-         * Uzupełniamy tablicę ImageView dostępnych w grze, ktore będą cyklicznie spadać
-         */
-        for (int i = 1; i <= image_number; i++) {
-            String s = "a" + i;
-            ImageView view = new ImageView(getApplicationContext());
-            int imageResource = getResources().getIdentifier(s, "drawable", getPackageName());
-            System.out.print(imageResource);
-            Drawable image = getResources().getDrawable(imageResource);
-            view.setImageDrawable(image);
-            image_table[i-1] = view;
-        }
-
-        /**
          * Counter dzięki, któremu jedzenie spada co 5 sekund,
          * wybrane jedzenie jest randomowe i spada z randomowego miejsca
          */
@@ -262,7 +260,9 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
         /**
-         * Pasek głodu spada co 2 sekundy o 5 kalorii, gracz musi uważać, że nie spadło do 0
+         * Pasek głodu spada co 2 sekundy o 15 kalorii jeśli w domku to o 5,
+         * gracz musi uważać, żeby głód nie spadł do 0
+         * TO DO INSULINA
          */
         new CountDownTimer(2000,2000) {
             @Override
@@ -271,15 +271,47 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if(!pause_flag) {
-                    current_score -= 5;
-                    score.setText(String.valueOf(current_score));
-                    progressBar.setProgress(current_score);
-
-
-                    insuline_score -= 5;
                     if(player.getX() < getScreenWidth() && player.getX() > getScreenWidth() - 385) {
-                        progressBar_insuline.setProgress(insuline_score);
+                        current_score -= 5;
+                    } else {
+                        current_score -= 15;
                     }
+                    insuline_score -= 5;
+                    score.setText(String.valueOf(current_score));
+                    /**
+                     * Jednym ze sposobów żeby umrzeć jest zagłodzenie się, jeśli głód gracza
+                     * spadnie do 0, umiera
+                     */
+                    if(current_score <= 0) {
+                        gameOver("Zagłodziłeś się!");
+                    }
+                    /**
+                     * Do postawienia diagnozy hipoglikemii konieczne jest spełnienie jednocześnie
+                     * 3 warunków (tzw. triada Whipple’a):
+                     * • poziom glukozy poniżej 40 mg/dL (2.2 mmol/L)
+                     * • występowanie objawów hipoglikemii
+                     * • wycofanie się tych objawów po przyjęciu glukozy
+                     */
+                    if(insuline_score <= 40) {
+                        gameOver("Hipoglikemia!");
+                    }
+                }
+                start();
+            }
+        }.start();
+
+        /**
+         * Paski są odświeżane co 0.2 sekundy
+         */
+        new CountDownTimer(200,200) {
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+            @Override
+            public void onFinish() {
+                if(!pause_flag) {
+                    progressBar_insuline.setProgress(insuline_score);
+                    progressBar.setProgress(current_score);
                 }
                 start();
             }
@@ -485,7 +517,9 @@ public class MainActivity extends AppCompatActivity {
     public void pauseTimer() {
         if(timer != null) {
             timer.stop();
-            timer_th.interrupt();
+            if(timer_th != null) {
+                timer_th.interrupt();
+            }
             timer_th = null;
         }
     }
@@ -523,8 +557,16 @@ public class MainActivity extends AppCompatActivity {
                 //nastapila kolizja z graczem
                 if(view.getX() >= player.getX()- 60 && view.getX() <= player.getX() + 60 ) {
                     layout.removeView(view);
-                    current_score += 100;
+                    current_score += Integer.parseInt(product_kcal[i]);
                     score.setText(String.valueOf(current_score));
+                    /**
+                     * Jedenym ze sposobów na śmierć jest przejedzenie:
+                     * w momencie gdy gracz zje coś i jego aktualna ilość spożytych kalorii
+                     * przekroczy trzykrotnie jego zapotrzebowanie kaloryczne, gracz umrze
+                     */
+                    if(current_score >= kcal*3) {
+                        gameOver("Śmierć z przejedzenia!");
+                    }
                 } else {
                     doCustomAnimationFromPlayer((ImageView) view, i);
                 }
@@ -543,6 +585,13 @@ public class MainActivity extends AppCompatActivity {
         view.startAnimation(animation);
     }
 
+    /**
+     * Animacja, która zdarza się jeśli gracz nie złapał produktu na czas
+     * @param view
+     *          Produkt do spadania
+     * @param i
+     *          Indeks w tablicach produktów
+     */
     public void doCustomAnimationFromPlayer(final ImageView view, int i){
         final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.con_layout);
         TranslateAnimation animation = new TranslateAnimation(0, 0, 1370, getScreenHeight());
@@ -576,12 +625,49 @@ public class MainActivity extends AppCompatActivity {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
-    public void setWeight(String kcal) {
-        this.kcal = Integer.parseInt(kcal);
+    /**
+     * Funkcja wykonująca zadania, które następują po śmierci gracza takie jak:
+     * - zatrzymanie gry
+     * - wyświetlenie komunikatu o śmierci
+     * - przejście do ScoreScreena
+     * @param death_type
+     *          Rodzaj śmierci, o której zostanie poinformowany gracz w komunikacie
+     */
+    public void gameOver(String death_type) {
+        /**
+         * Wszystkie przyciski są niewidoczne, jedyne co gracz widzi to komunikat o śmierci
+         */
+        button_pause.setVisibility(View.INVISIBLE);
+        button_restart.setVisibility(View.INVISIBLE);
+        button_newgame.setVisibility(View.INVISIBLE);
+        button_list.setVisibility(View.INVISIBLE);
+        button_setting.setVisibility(View.INVISIBLE);
+        button_exit.setVisibility(View.INVISIBLE);
+        progressBar_insuline.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        player.setVisibility(View.INVISIBLE);
+        domek.setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_exit).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_list).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_newgame).setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_setting).setVisibility(View.INVISIBLE);
+        pauseTimer();
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setMessage(death_type + " Następnym razem pamiętaj\n" +
+                "żeby odżywiać się rozważnie!")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //TO DO SCORE SCREEN!!
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
-
-    public int getWeight() {
-        return this.kcal;
-    }
-
 }
