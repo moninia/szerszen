@@ -170,23 +170,16 @@ public class MainActivity extends AppCompatActivity {
          */
         if(b!=null)
         {
-            int tmp_i;
             String tmp_s;
-            tmp_s =(String) b.get("sex");
-            sex = tmp_s;
-            tmp_s =(String) b.get("cukrzyca");
-            cukrzyca = tmp_s;
-            tmp_s = (String) b.get("activity");
-            activity = tmp_s;
-            tmp_i = (int) b.get("weight");
-            weight = tmp_i;
-            tmp_i = (int) b.get("age");
-            age = tmp_i;
-            tmp_i = (int) b.get("height");
-            height = tmp_i;
             tmp_s = (String) b.get("setting");
             if(tmp_s.equals("tak")) {
                 setting_flag = true;
+                sex =(String) b.get("sex");
+                cukrzyca =(String) b.get("cukrzyca");
+                activity = (String) b.get("activity");
+                weight = (int) b.get("weight");
+                age = (int) b.get("age");
+                height = (int) b.get("height");
             } else {
                 setting_flag = false;
             }
@@ -337,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent setting_page = new Intent(MainActivity.this, SettingActivity.class);
+                finish();
                 startActivity(setting_page);
             }
         });
@@ -462,6 +456,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.text_newgame).setVisibility(View.INVISIBLE);
             findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
         }
+        score.setVisibility(View.INVISIBLE);
         button_list.setVisibility(View.VISIBLE);
         button_setting.setVisibility(View.VISIBLE);
         button_exit.setVisibility(View.VISIBLE);
@@ -488,6 +483,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         player.setVisibility(View.VISIBLE);
         domek.setVisibility(View.VISIBLE);
+        score.setVisibility(View.VISIBLE);
         findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
         findViewById(R.id.text_exit).setVisibility(View.INVISIBLE);
         findViewById(R.id.text_list).setVisibility(View.INVISIBLE);
@@ -637,6 +633,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Wszystkie przyciski są niewidoczne, jedyne co gracz widzi to komunikat o śmierci
          */
+        pause_flag = true;
         button_pause.setVisibility(View.INVISIBLE);
         button_restart.setVisibility(View.INVISIBLE);
         button_newgame.setVisibility(View.INVISIBLE);
@@ -664,7 +661,16 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //TO DO SCORE SCREEN!!
+                        Intent intent = new Intent(MainActivity.this, ScoreScreen.class); //tworzenie nowej aktywność
+                        intent.putExtra("time", text_timer.getText());
+                        intent.putExtra("sex", sex);  // pass your values and retrieve them in the other Activity using keyName
+                        intent.putExtra("activity", activity);
+                        intent.putExtra("weight", weight);
+                        intent.putExtra("age", age);
+                        intent.putExtra("height", height);
+                        intent.putExtra("cukrzyca", cukrzyca);
+                        finish();
+                        startActivity(intent); //uruchomienie stworzonej aktywności
                     }
                 });
         AlertDialog alert = builder.create();
