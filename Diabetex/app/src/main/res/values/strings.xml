@@ -41,6 +41,108 @@
         <item>Banan</item>
         <item>Brzoskwinia</item>
         <item>Burger</item>
+        <!--
+        <item>Baklazan</item>
+        <item>Baton</item>
+        <item>Arbuz</item>
+        <item>Babeczka z budyniem</item>
+        <item>Bagietka pszenna</item>
+        <item>Brokuł</item>
+        <item>Pad thai</item>
+        <item>Bulka z sałata</item>
+        <item>Butelka wody</item>
+        <item>Cebula</item>
+        <item>Chipsy</item>
+        <item>Chleb</item>
+        <item>Ciastko</item>
+        <item>Ciasto czekoladowe</item>
+        <item>Dżem jabłkowy</item>
+        <item>Croissant czekoladowy</item>
+        <item>Croissant maślany</item>
+        <item>Cukierek</item>
+        <item>Cukierek</item>
+        <item>Cytryna</item>
+        <item>Deser lodowy</item>
+        <item>Donut</item>
+        <item>Dynia</item>
+        <item>Fasola</item>
+        <item>Fast food</item>
+        <item>Grzybek kurka</item>
+        <item>Frytki</item>
+        <item>Galaretka</item>
+        <item>Gniazdko</item>
+        <item>Gruszka</item>
+        <item>Hamburger</item>
+        <item>Herbata</item>
+        <item>Herbatnik</item>
+        <item>Kiełbasa</item>
+        <item>Hot dog</item>
+        <item>Kebab</item>
+        <item>Jabłko</item>
+        <item>Jajko na twardo</item>
+        <item>Jajko sadzone</item>
+        <item>Jogurt pitny</item>
+        <item>Kanapka z szynką</item>
+        <item>Kiełbasa z grilla</item>
+        <item>Kurczak z rożna</item>
+        <item>Kiwi</item>
+        <item>Krab</item>
+        <item>Krązki cebulowe</item>
+        <item>Krewetka</item>
+        <item>Krewetka królewska</item>
+        <item>Kufel piwa</item>
+        <item>Kukurydza</item>
+        <item>Limonka</item>
+        <item>Lizak</item>
+        <item>Lody</item>
+        <item>Lody w wafelku</item>
+        <item>Marmolada</item>
+        <item>Miód</item>
+        <item>Mleko</item>
+        <item>Muffinka</item>
+        <item>Owoce</item>
+        <item>Papryka</item>
+        <item>Pieczarka</item>
+        <item>Pasztet</item>
+        <item>Mięso wieprzowe</item>
+        <item>Pizza</item>
+        <item>Pomarańcz</item>
+        <item>Pomidor</item>
+        <item>Popcorn</item>
+        <item>Rak</item>
+        <item>Rollo</item>
+        <item>Ryba</item>
+        <item>Ryż</item>
+        <item>Rzodkiew</item>
+        <item>Salata</item>
+        <item>Sandwich</item>
+        <item>Sardynki</item>
+        <item>Ser</item>
+        <item>Ser plaster</item>
+        <item>Shake</item>
+        <item>Śledź</item>
+        <item>Stek</item>
+        <item>Sok cytrynowy</item>
+        <item>Szynka</item>
+        <item>Szynka</item>
+        <item>Truskawka</item>
+        <item>Zupa</item>
+        <item>Winogrono</item>
+        <item>Wiśnie</item>
+        <item>Woda</item>
+        <item>Tost</item>
+        <item>Żelek</item>
+        <item>Żelek z cukrem</item>
+        <item>Szarlotka</item>
+        <item>Trufla czekoladowa</item>
+        <item>Sushi nigiri</item>
+        <item>Sushi futomaki</item>
+        <item>Sushi hosomaki</item>
+        <item>Spaghetti</item>
+        <item>Tort bezowy</item>
+        <item>Udko z kurczaka</item>
+        <item>Zupka chińska</item>
+        -->
     </string-array>
 
     <!-- Rysunki produktów potrzebne do listy -->
@@ -54,19 +156,223 @@
         <item>@drawable/banany</item>
         <item>@drawable/brzoskwinia</item>
         <item>@drawable/burger</item>
+        <!--
+        <item>@drawable/baklazan</item>
+        <item>@drawable/baton</item>
+        <item>@drawable/arbuz2</item>
+        <item>@drawable/babeczka_budniem</item>
+        <item>@drawable/bagietka_pszenna</item>
+        <item>@drawable/brokul</item>
+        <item>Pad thai</item>
+        <item>@drawable/bulka_z_salata</item>
+        <item>@drawable/butelka_wody</item>
+        <item>@drawable/cebula</item>
+        <item>@drawable/chips</item>
+        <item>@drawable/chleb</item>
+        <item>@drawable/ciasteczko</item>
+        <item>@drawable/ciasto_czekoladowe</item>
+        <item>@drawable/dzem</item>
+        <item>@drawable/croissant_czekoladowy</item>
+        <item>@drawable/croissant_maslany</item>
+        <item>@drawable/cukierek1</item>
+        <item>@drawable/cukierek2</item>
+        <item>@drawable/cytryna</item>
+        <item>@drawable/deser_lodowy</item>
+        <item>@drawable/donut</item>
+        <item>@drawable/dynia</item>
+        <item>@drawable/fasolka</item>
+        <item>@drawable/fast_food</item>
+        <item>@drawable/grzybek_kurka</item>
+        <item>@drawable/frytki</item>
+        <item>@drawable/galaretka</item>
+        <item>@drawable/gniazdko_z_lukrem</item>
+        <item>@drawable/gruszka</item>
+        <item>@drawable/hamburger</item>
+        <item>@drawable/herbata</item>
+        <item>@drawable/herbatnik</item>
+        <item>@drawable/kielbasa</item>
+        <item>@drawable/hotdog</item>
+        <item>@drawable/kebab</item>
+        <item>@drawable/jablko</item>
+        <item>@drawable/jajko_na_twardo</item>
+        <item>@drawable/jajko_sadzone</item>
+        <item>@drawable/jogurt_pitny</item>
+        <item>@drawable/kanapka</item>
+        <item>@drawable/kielbasa_z_grilla</item>
+        <item>@drawable/kurczak_z_rozna</item>
+        <item>@drawable/kiwi</item>
+        <item>@drawable/krab</item>
+        <item>@drawable/krazki_ceb</item>
+        <item>@drawable/krewetka</item>
+        <item>@drawable/krewetka_krolewska</item>
+        <item>@drawable/kufel_piwa</item>
+        <item>@drawable/kukurydza</item>
+        <item>@drawable/limonka</item>
+        <item>@drawable/lizak</item>
+        <item>@drawable/lody</item>
+        <item>@drawable/lody_w_wafelku</item>
+        <item>@drawable/marmolada</item>
+        <item>@drawable/miod</item>
+        <item>@drawable/karton_mleka</item>
+        <item>@drawable/muffin</item>
+        <item>@drawable/owoce</item>
+        <item>@drawable/papryka</item>
+        <item>@drawable/pieczarka</item>
+        <item>@drawable/pasztet</item>
+        <item>@drawable/mieso_wieprz</item>
+        <item>@drawable/pizza</item>
+        <item>@drawable/pomarancz</item>
+        <item>@drawable/pomidor</item>
+        <item>@drawable/popcorn</item>
+        <item>@drawable/raczek</item>
+        <item>@drawable/rollo</item>
+        <item>@drawable/ryba2</item>
+        <item>@drawable/ryz</item>
+        <item>@drawable/rzodkiewka</item>
+        <item>@drawable/salata</item>
+        <item>@drawable/sandwich</item>
+        <item>@drawable/sardynki</item>
+        <item>@drawable/ser2</item>
+        <item>@drawable/ser_plaster</item>
+        <item>@drawable/deser_shake</item>
+        <item>@drawable/sledzie</item>
+        <item>@drawable/stek</item>
+        <item>@drawable/sok_cytrynowy</item>
+        <item>@drawable/szynka</item>
+        <item>@drawable/szynka2</item>
+        <item>@drawable/truskawka</item>
+        <item>@drawable/zupa2</item>
+        <item>@drawable/winogrono</item>
+        <item>@drawable/wisnie</item>
+        <item>@drawable/woda</item>
+        <item>@drawable/tost</item>
+        <item>@drawable/zelek</item>
+        <item>@drawable/zelek_z_cukrem</item>
+        <item>@drawable/szarlotka</item>
+        <item>@drawable/trufla_czekoladowa</item>
+        <item>@drawable/sushi_nigiri</item>
+        <item>@drawable/sushi_futomaki</item>
+        <item>@drawable/sushi_hosomaki</item>
+        <item>@drawable/spaghetti</item>
+        <item>@drawable/tort_bezowy</item>
+        <item>@drawable/udko_kurczaka</item>
+        <item>@drawable/chinszczyzna</item>
+        -->
     </string-array>
 
     <!-- Wartosci kaloryczne produktów potrzebne do listy -->
     <string-array name="product_kcalArray">
-        <item>10</item>
-        <item>90</item>
-        <item>3</item>
-        <item>35</item>
-        <item>90</item>
-        <item>500</item>
+        <item>80</item>
+        <item>280</item>
+        <item>60</item>
+        <item>200</item>
+        <item>220</item>
+        <item>250</item>
+        <item>150</item>
+        <item>40</item>
+        <item>800</item>
+        <!--
+        <item>60</item>
+        <item>300</item>
+        <item>80</item>
+        <item>200</item>
+        <item>370</item>
         <item>120</item>
-        <item>8000</item>
-        <item>12</item>
+        <item>400</item>
+        <item>250</item>
+        <item>0</item>
+        <item>40</item>
+        <item>500</item>
+        <item>450</item>
+        <item>250</item>
+        <item>500</item>
+        <item>250</item>
+        <item>400</item>
+        <item>350</item>
+        <item>60</item>
+        <item>80</item>
+        <item>20</item>
+        <item>250</item>
+        <item>300</item>
+        <item>30</item>
+        <item>40</item>
+        <item>1300</item>
+        <item>40</item>
+        <item>300</item>
+        <item>260</item>
+        <item>320</item>
+        <item>60</item>
+        <item>400</item>
+        <item>1</item>
+        <item>25</item>
+        <item>280</item>
+        <item>450</item>
+        <item>800</item>
+        <item>60</item>
+        <item>100</item>
+        <item>150</item>
+        <item>140</item>
+        <item>180</item>
+        <item>190</item>
+        <item>700</item>
+        <item>50</item>
+        <item>150</item>
+        <item>140</item>
+        <item>120</item>
+        <item>150</item>
+        <item>250</item>
+        <item>150</item>
+        <item>30</item>
+        <item>50</item>
+        <item>120</item>
+        <item>200</item>
+        <item>220</item>
+        <item>150</item>
+        <item>150</item>
+        <item>280</item>
+        <item>80</item>
+        <item>50</item>
+        <item>20</item>
+        <item>220</item>
+        <item>350</item>
+        <item>550</item>
+        <item>100</item>
+        <item>40</item>
+        <item>450</item>
+        <item>150</item>
+        <item>450</item>
+        <item>300</item>
+        <item>350</item>
+        <item>20</item>
+        <item>25</item>
+        <item>350</item>
+        <item>380</item>
+        <item>320</item>
+        <item>80</item>
+        <item>200</item>
+        <item>220</item>
+        <item>280</item>
+        <item>75</item>
+        <item>250</item>
+        <item>300</item>
+        <item>20</item>
+        <item>60</item>
+        <item>70</item>
+        <item>50</item>
+        <item>0</item>
+        <item>150</item>
+        <item>40</item>
+        <item>90</item>
+        <item>300</item>
+        <item>280</item>
+        <item>180</item>
+        <item>360</item>
+        <item>300</item>
+        <item>400</item>
+        <item>600</item>
+        <item>250</item>
+        <item>360</item>
+        -->
     </string-array>
 
     <!-- Wartosci IG produktów potrzebne do listy -->
