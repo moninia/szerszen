@@ -79,22 +79,22 @@
         android:text="Podaj swoja plec"
         app:layout_constraintBottom_toTopOf="@+id/activity_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text1"
-        app:layout_constraintVertical_bias="0.886" />
+        app:layout_constraintVertical_bias="0.987" />
 
     <TextView
         android:id="@+id/activity_text"
         android:layout_width="112dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="44dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Podaj swoja aktywnosc"
         app:layout_constraintBottom_toTopOf="@+id/cukrzyca_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
@@ -170,7 +170,8 @@
         android:text="Podaj swoj wiek"
         app:layout_constraintBottom_toTopOf="@+id/height_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text1" />
+        app:layout_constraintTop_toBottomOf="@+id/text1"
+        app:layout_constraintVertical_bias="0.774" />
 
     <EditText
         android:id="@+id/age_field"
@@ -188,8 +189,8 @@
 
     <EditText
         android:id="@+id/height_field"
-        android:layout_width="204dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
@@ -197,7 +198,7 @@
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/sex_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/height_text"
         app:layout_constraintTop_toBottomOf="@+id/age_field"
         app:layout_constraintVertical_bias="0.0" />

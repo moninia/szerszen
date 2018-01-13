@@ -80,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageView player;
     private ImageView domek;
 
+    /**
+     * Pola do pomocy (opcja wybierana w setting "Czy chcesz wyświetlać wartości pomocnicze produktów?"
+     */
+    private TextView pro_name;
+    private TextView pro_IG;
+    private TextView pro_kcal;
+
     String[] product_names;
     String[] product_kcal;
     String[] product_IG;
@@ -137,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
 
         player = (ImageView) findViewById(R.id.player);
         domek  = (ImageView) findViewById(R.id.domek);
+
+        pro_name = (TextView) findViewById(R.id.pro_name);
+        pro_kcal = (TextView) findViewById(R.id.pro_kcal);
+        pro_IG = (TextView) findViewById(R.id.pro_IG);
 
         text_timer = (TextView) findViewById(R.id.text_timer);
         score = (TextView) findViewById(R.id.score);
@@ -251,6 +262,15 @@ public class MainActivity extends AppCompatActivity {
 
                     view.setScaleType(ImageView.ScaleType.FIT_XY);
 
+                    /**
+                     * Jeśli podpowiedzi są włączone to wyświetlane jest w górnym rogu dane o produkcie
+                     */
+                    if(true) {
+                        pro_name.setText(product_names[j]);
+                        pro_IG.setText(product_IG[j]);
+                        pro_kcal.setText(product_kcal[j]);
+                    }
+
                     doCustomAnimationToPlayer((ImageView) view, j);
                     ((MainActivity) context).score.setText(String.valueOf(current_score)); //odświeżanie paska jedzenia
                     j = (j + 1) % image_number;
@@ -260,9 +280,7 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
         /**
-         * Pasek głodu spada co 2 sekundy o 15 kalorii jeśli w domku to o 5,
-         * gracz musi uważać, żeby głód nie spadł do 0
-         * TO DO INSULINA
+         * Pasek głodu spada co 2 sekund, gracz musi uważać, żeby głód nie spadł do 0
          */
         new CountDownTimer(2000,2000) {
             @Override
@@ -272,9 +290,19 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 if(!pause_flag) {
                     if(player.getX() < getScreenWidth() && player.getX() > getScreenWidth() - 385) {
-                        current_score -= 5;
+                        /**
+                         * W domu głód wzrasta 2 razy wolniej (patrz wyjaśnienie niżej)
+                         */
+                        current_score -= kcal/240;
                     } else {
-                        current_score -= 15;
+                        /**
+                         * Człowiek przez cały dzień potrzebuje pełnej dawki zapotrzebowania kalorycznego
+                         * oznacza to, że jeśli w grze 10 sekund to godzina, to przez 10 sekund
+                         * głód wzrośnie mu o 1/24 swojego całego kaorycznego zapotrzebowania
+                         * czyli jeśli głód wzrasta z prędkością 2 sekund to co 2 sekundy opada
+                         * 1/120 część zapotrzebowania kalorycznego
+                         */
+                        current_score -= (kcal/24)/5;
                     }
                     insuline_score -= 5;
                     score.setText(String.valueOf(current_score));
@@ -311,7 +339,10 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 if(!pause_flag) {
                     if(player.getX() < getScreenWidth() && player.getX() > getScreenWidth() - 385) {
+                        progressBar_insuline.setVisibility(View.VISIBLE);
                         progressBar_insuline.setProgress(insuline_score);
+                    } else {
+                        progressBar_insuline.setVisibility(View.INVISIBLE);
                     }
                     progressBar.setProgress(current_score);
                 }
