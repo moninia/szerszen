@@ -99,6 +99,13 @@ public class MainActivity extends AppCompatActivity {
 
     public int current_score = 0;
     public int insuline_score = 0;
+
+    /**
+     * Flaga określana przez gracza w ustawieniach, gracz określna czy chce widzieć
+     * podpowiedzi czy nie
+     */
+    public String tip_flag = "nie";
+
     public boolean pause_flag = true;
 
     /**
@@ -192,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 weight = (int) b.get("weight");
                 age = (int) b.get("age");
                 height = (int) b.get("height");
+                tip_flag = (String) b.get("tips");
             } else {
                 setting_flag = false;
             }
@@ -265,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * Jeśli podpowiedzi są włączone to wyświetlane jest w górnym rogu dane o produkcie
                      */
-                    if(true) {
+                    if(tip_flag.equals("tak")) {
                         pro_name.setText(product_names[j]);
                         pro_IG.setText(product_IG[j]);
                         pro_kcal.setText(product_kcal[j]);
@@ -304,7 +312,13 @@ public class MainActivity extends AppCompatActivity {
                          */
                         current_score -= (kcal/24)/5;
                     }
-                    insuline_score -= 5;
+                    if(cukrzyca.equals("Brak")){
+                        insuline_score -= 0; //przy braku cykrzycy, poziom insuliny się nie zmienia
+                    } else if(cukrzyca.equals("Typ1")) {
+                        insuline_score -= 5; //opada o 1 procent (max 500), niezależne od diety
+                    } else if(cukrzyca.equals("Typ2") || cukrzyca.equals("Ciazowa")) {
+                        insuline_score -= 15; //typ2 i ciazowa są typami zależnymi od diety
+                    }
                     score.setText(String.valueOf(current_score));
                     /**
                      * Jednym ze sposobów żeby umrzeć jest zagłodzenie się, jeśli głód gracza
@@ -400,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                 current_score = kcal-(kcal/10);
                 insuline_score = 250;
 
-                progressBar.setProgress(kcal-(kcal/10)); //poziom głodu na stracie wynosi 90% maksymalnej wartości
+                progressBar.setProgress(kcal-(kcal/20)); //poziom głodu na stracie wynosi 90% maksymalnej wartości
                 progressBar.setMax(kcal);
 
                 progressBar_insuline.setProgress(250); //poziom insuliny jest w połowie czyli taki jaki powinniśmy trzymać
@@ -501,6 +515,9 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.text_newgame).setVisibility(View.INVISIBLE);
             findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
         }
+        pro_IG.setVisibility(View.INVISIBLE);
+        pro_kcal.setVisibility(View.INVISIBLE);
+        pro_name.setVisibility(View.INVISIBLE);
         score.setVisibility(View.INVISIBLE);
         button_list.setVisibility(View.VISIBLE);
         button_setting.setVisibility(View.VISIBLE);
@@ -529,6 +546,15 @@ public class MainActivity extends AppCompatActivity {
         player.setVisibility(View.VISIBLE);
         domek.setVisibility(View.VISIBLE);
         score.setVisibility(View.VISIBLE);
+        if(tip_flag.equals("tak")) {
+            pro_IG.setVisibility(View.VISIBLE);
+            pro_kcal.setVisibility(View.VISIBLE);
+            pro_name.setVisibility(View.VISIBLE);
+        } else {
+            pro_IG.setVisibility(View.INVISIBLE);
+            pro_kcal.setVisibility(View.INVISIBLE);
+            pro_name.setVisibility(View.INVISIBLE);
+        }
         findViewById(R.id.text_restart).setVisibility(View.INVISIBLE);
         findViewById(R.id.text_exit).setVisibility(View.INVISIBLE);
         findViewById(R.id.text_list).setVisibility(View.INVISIBLE);
@@ -600,6 +626,16 @@ public class MainActivity extends AppCompatActivity {
                     layout.removeView(view);
                     current_score += Integer.parseInt(product_kcal[i]);
                     score.setText(String.valueOf(current_score));
+                    if(cukrzyca.equals("Brak")){
+                        insuline_score += 0; //przy braku cykrzycy, poziom insuliny się nie zmienia
+                    } else if(cukrzyca.equals("Typ1")) {
+                        //przy dobrze dobranych lekach, a w taką grupę odbiorów celujemy,
+                        //cukrzyk jest w stanie jeść co chcem insulina rośnie 10% wartości IG
+                        insuline_score += Integer.parseInt(product_IG[i])/10;
+                    } else if(cukrzyca.equals("Typ2") || cukrzyca.equals("Ciazowa")) {
+                        //oba te typy są bardzo rygorystyczne i należy zwracać co się je
+                        insuline_score += Integer.parseInt(product_IG[i])*2;
+                    }
                     /**
                      * Jedenym ze sposobów na śmierć jest przejedzenie:
                      * w momencie gdy gracz zje coś i jego aktualna ilość spożytych kalorii
@@ -607,6 +643,9 @@ public class MainActivity extends AppCompatActivity {
                      */
                     if(current_score >= kcal*3) {
                         gameOver("Śmierć z przejedzenia!");
+                    }
+                    if(insuline_score >= 500) {
+                        gameOver("Hiperglikemia!");
                     }
                 } else {
                     doCustomAnimationFromPlayer((ImageView) view, i);
@@ -714,6 +753,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("age", age);
                         intent.putExtra("height", height);
                         intent.putExtra("cukrzyca", cukrzyca);
+                        intent.putExtra("tips", tip_flag);
                         finish();
                         startActivity(intent); //uruchomienie stworzonej aktywności
                     }

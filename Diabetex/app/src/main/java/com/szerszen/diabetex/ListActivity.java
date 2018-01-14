@@ -67,7 +67,7 @@ public class ListActivity extends AppCompatActivity {
          * string.xml musi być po tyle samo.
          */
         for (int i = 0; i < product_names.length; i++) {
-            RowItem item = new RowItem(product_names[i],
+            final RowItem item = new RowItem(product_names[i],
                     product_pics.getResourceId(i, -1), product_kcal[i], product_IG[i]);
             rowItems.add(item);
         }

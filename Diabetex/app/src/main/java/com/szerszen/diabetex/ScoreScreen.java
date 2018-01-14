@@ -33,6 +33,7 @@ public class ScoreScreen extends AppCompatActivity {
     public int height;
     public String activity;
     public String cukrzyca;
+    public String tips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class ScoreScreen extends AppCompatActivity {
             weight = (int) b.get("weight");
             age = (int) b.get("age");
             height = (int) b.get("height");
+            tips = (String) b.get("tips");
         }
 
         /**
@@ -84,6 +86,7 @@ public class ScoreScreen extends AppCompatActivity {
                 main.putExtra("age", age);
                 main.putExtra("height", height);
                 main.putExtra("cukrzyca", cukrzyca);
+                main.putExtra("tips", tips);
                 finish();
                 startActivity(main);
             }

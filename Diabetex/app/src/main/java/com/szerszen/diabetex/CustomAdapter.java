@@ -94,7 +94,7 @@ public class CustomAdapter extends BaseAdapter {
 
         //należy sprawdzić czy podany stary widok jest pusty
         if(convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item, null);
+            convertView = mInflater.inflate(R.layout.list_item, parent, false);
             holder = new ViewHolder();
 
             holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
@@ -118,7 +118,7 @@ public class CustomAdapter extends BaseAdapter {
             //jeśli stary widok był zapewniony oznacza to, że możemy go ponownie użyć
             holder = (ViewHolder) convertView.getTag();
         }
-
+        convertView.setTag(holder);
         return convertView;
     }
 }
